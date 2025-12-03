@@ -1,13 +1,25 @@
-#import "template.typ": FIT-Protocol, ohms, rnd, volts
+#import "template.typ": FIT-Protocol, ohms, rnd, volts, ApiEndpoint
 
 #show: FIT-Protocol.with(
+  // Change language to english, default is czech
+  language: "EN",
   academic-subject: "SUBJECT NAME",
   academic-year: "2024/2025",
-  protocol-title: "SEMESTRÁLNÍ PROJEKT",
+  protocol-title: "SEMESTRAL PROJECT",
   protocol-subtitle: "Project subtitle",
+  // This field is optional
+  team: [
+    Team #strong[10xEngineers]
+    #v(5mm)
+    - Variant 1
+    - Option B
+  ],
   authors: (
+    // You can optionaly set a person to be leader
+    (name: "Honza Novák", login: "xlogin00", leader: true),
     (name: "Honza Novák", login: "xlogin00"),
-    (name: "Tomáš Navrátil", login: "xlogin01"),
+    // You can specify optional credits per person
+    (name: "Tomáš Navrátil", login: "xlogin01", credits: 50),
   ),
   date: "Brno, 19. dubna 2025",
 )
@@ -19,6 +31,29 @@
 #align(center)[
   #image("assets/fit_logo_en.png", width: 100%)
 ]
+
+You can make nice swagger-like endpoints!
+
+#ApiEndpoint(
+  "POST",
+  "/api/data/{UUID}",
+  "Creates a new data record"
+)
+#ApiEndpoint(
+  "GET",
+  "/api/data/{UUID}",
+  "Returns a JSON with the data"
+)
+#ApiEndpoint(
+  "PUT",
+  "/api/data/{UUID}",
+  "Updates the existing data"
+)
+#ApiEndpoint(
+  "DELETE",
+  "/api/data/{UUID}",
+  "Deletes a data record"
+)
 
 #pagebreak()
 

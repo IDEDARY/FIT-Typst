@@ -1,10 +1,12 @@
 // https://github.com/IDEDARY/FIT-Typst
 
-#let university-name = "VYSOKÉ UČENÍ TECHNICKÉ V BRNĚ"
-#let university-logo = "assets/vut_logo_cz.png"
+#let university-name-cz = "VYSOKÉ UČENÍ TECHNICKÉ V BRNĚ"
+#let faculty-name-fit-cz = "Fakulta informačních technologií"
+#let faculty-logo-fit-cz = "assets/fit_logo_cz.png"
 
-#let faculty-name-fit = "Fakulta informačních technologií"
-#let faculty-logo-fit = "assets/fit_logo_cz.png"
+#let university-name-en = "BRNO UNIVERSITY OF TECHNOLOGY"
+#let faculty-name-fit-en = "Faculty of Information Technology"
+#let faculty-logo-fit-en = "assets/fit_logo_en.png"
 
 #let volts(term) = box[#term V]
 #let ohms(term) = box[#term Ω]
@@ -28,10 +30,12 @@
 #let rnd(term) = calc.round(term, digits: 4);
 
 #let FIT-Protocol(
+  language: "CZ",
   academic-subject: str,
   academic-year: str,
   protocol-title: str,
   protocol-subtitle: none,
+  team: none,
   authors: (),
   date: str,
   document
@@ -95,7 +99,6 @@
     ]
   }
 
-  //#show math.equation.where(block: true): set block(spacing: 3em)
   #show math.equation.where(block: true): eq => {
     block(spacing: 2.65em)[
       #eq
@@ -104,37 +107,67 @@
 
   // Customize matrix look
   #set math.mat(gap: 1.5em)
-  //#show math.equation.where(block: true): set block(spacing: 3em)
 
   // University details
   #align(center)[
-    #image(faculty-logo-fit, height: 10%) #v(16pt)
+    #image(
+      if language == "CZ" {
+        faculty-logo-fit-cz
+      } else {
+        faculty-logo-fit-en
+      },
+      height: 10%
+    ) #v(16pt)
 
-    #text(16pt, weight: "bold")[#university-name]
+    #text(16pt, weight: "bold")[
+      #if language == "CZ" {
+        university-name-cz
+      } else {
+        university-name-en
+      }
+    ]
 
-    #text(14pt)[#faculty-name-fit]
-  ] #v(25mm)
+    #text(14pt)[
+      #if language == "CZ" {
+        faculty-name-fit-cz
+      } else {
+        faculty-name-fit-en
+      }
+    ]
+  ] #v(15mm)
 
   // Protocol subject
   #align(center)[
     #text(14pt)[#academic-subject]
 
     #text(14pt)[#academic-year]
-  ] #v(30mm)
+  ] #v(15mm)
 
   // Protocol title
   #align(center)[
-    #text(24pt, weight: "bold")[#protocol-title] #v(5mm)
+    #text(24pt, weight: "bold")[#protocol-title]
 
     #text(18pt)[#protocol-subtitle]
+
+    #if team != none {
+      [#v(30mm) #text(14pt)[#team]]
+    }
   ] #v(1fr)
 
   // Protocol authors and date
   #grid(
-    columns: (1fr, 1fr),
+    columns: (2fr, 1fr),
     // Authors
     align(left)[#for author in authors [
-      #author.name (#author.login) #linebreak()
+      #if "credits" in author {
+        [#strong[#author.credits %] - ]
+      }
+      #if "leader" in author {
+        [#strong[#author.name (#author.login)] - #if language == "CZ" { [vedoucí] } else { [leader] }]
+      } else {
+        [#author.name (#author.login)]
+      }
+      #linebreak()
     ]],
     // Date
     align(right + bottom)[#date]
@@ -143,12 +176,56 @@
   // Protocol outline
   #pagebreak()
   #outline(
-    title: "Obsah",
+    title: "Outline",
     indent: auto,
-    //entry.fill: repeat([]),
   )
 
   // Remaining document
   #pagebreak()
   #document
 ]
+
+
+#let ApiEndpoint(method, path, description) = {
+  // Define colors for different HTTP methods
+  let method-colors = (
+    "GET": rgb("#61AFFE"),
+    "POST": rgb("#49CC90"),
+    "PUT": rgb("#FCA130"),
+    "DELETE": rgb("#F93E3E"),
+    "PATCH": rgb("#50E3C2"),
+    "HEAD": rgb("#663399"),
+    "OPTIONS": rgb("#0D5AA7"),
+  )
+
+  // Get the color for the current method, defaulting to gray
+  let method-color = method-colors.at(upper(method), default: rgb("#888888"))
+
+  // Main container for the endpoint
+  rect(
+    fill: luma(96.08%), // Light gray background
+    stroke: luma(220),
+    radius: 4pt,
+    width: 100%,
+    inset: 4pt,
+  )[
+    #grid(
+      columns: (auto, auto, 1fr),
+      column-gutter: 8pt,
+      align: center + horizon,
+      // HTTP Method Pill
+      rect(
+        fill: method-color,
+        stroke: none,
+        radius: 3pt,
+        inset: (x: 6pt, y: 4pt),
+      )[
+        #text(weight: "bold", fill: white, size: 12pt)[#upper(method)]
+      ],
+      // Endpoint Path
+      text(weight: 500, size: 10pt, style: "italic", font: "Noto Sans Mono")[#path],
+      // Endpoint Description
+      align(right)[#text(luma(35.29%), size: 10pt)[#description #h(4pt)]]
+    )
+  ]
+}
