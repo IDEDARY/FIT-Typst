@@ -1,0 +1,17 @@
+google:
+  type: Web
+  title: Google
+  url: https://www.google.com/
+  date: 1949-12-07
+
+typst:
+  type: Web
+  title: Typst
+  url: https://typst.app/
+  date: 1949-12-07
+
+Hayagriva_format:
+  type: Web
+  title: The Hayagriva YAML File Format
+  url: https://github.com/typst/hayagriva
+  note: The format to write bibliography in yaml format. Simmilar to bib.

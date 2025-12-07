@@ -105,14 +105,3 @@ $
   #emph[\* A special note about the table]
 ]
 
-#pagebreak()
-
-= Použitá literatura
-
-#v(16pt)
-
-[1] Google. Online. Dostupné z: https://www.google.com. [cit. #datetime.today().display()]
-
-[2] Typst. Online. Dostupné z: https://typst.app. [cit. #datetime.today().display()]
-
-
