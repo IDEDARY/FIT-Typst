@@ -109,7 +109,13 @@
   }
 
   // Customize figures
-  #set figure(supplement: [Tab.])
+  #show figure.where(
+    kind: table,
+  ): set figure(supplement: [Tab.])
+  #show figure.where(
+    kind: image,
+  ): set figure(supplement: [Img.])
+
   #show figure: f => {
     block(above: 2em, below: 2em)[
       #box(width: 100%)[
