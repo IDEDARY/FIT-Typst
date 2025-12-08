@@ -45,14 +45,26 @@
   #set heading(numbering: "1.1")
   #set text(font: "Liberation Sans", size: 11pt)
 
-  // Customize the outline formatting
+  // Customize the outline formatting (General)
   #show outline.entry: entry => {
-    let number = numbering(
-      entry.element.numbering, ..counter(heading).at(entry.element.location())
-    )
+    // Only number if the element actually has a numbering scheme
+    let number = if entry.element.numbering != none {
+      numbering(
+        entry.element.numbering,
+        ..counter(heading).at(entry.element.location()),
+      )
+    } else {
+      none
+    }
+
     link(entry.element.location(), [
       #v(-0.1em)
-      #h(0.8em * entry.level) #number #h(1em) #entry.element.body
+      #h(0.8em * entry.level)
+      // Only show number and spacer if number exists
+      #if number != none {
+        [#number #h(1em)]
+      }
+      #entry.element.body
       #h(1em)
       #box(width: 1fr, repeat(". "))
       #h(1em)
@@ -60,13 +72,23 @@
     ])
   }
 
-  // Customize the outline formatting
+  // Customize the outline formatting (Level 1 - Bold)
   #show outline.entry.where(level: 1): entry => {
-    let number = numbering(
-      entry.element.numbering, ..counter(heading).at(entry.element.location())
-    )
+    let number = if entry.element.numbering != none {
+      numbering(
+        entry.element.numbering,
+        ..counter(heading).at(entry.element.location()),
+      )
+    } else {
+      none
+    }
+
     link(entry.element.location(), strong[
-      #v(0.7em) #number #h(1em) #entry.element.body
+      #v(0.7em)
+      #if number != none {
+        [#number #h(1em)]
+      }
+      #entry.element.body
       #box(width: 1fr, entry.fill)
       #entry.page()
     ])
@@ -87,7 +109,13 @@
   }
 
   // Customize figures
-  #set figure(supplement: [Tab.])
+  #show figure.where(
+    kind: table,
+  ): set figure(supplement: [Tab.])
+  #show figure.where(
+    kind: image,
+  ): set figure(supplement: [Img.])
+
   #show figure: f => {
     block(above: 2em, below: 2em)[
       #box(width: 100%)[
@@ -183,7 +211,15 @@
   // Remaining document
   #pagebreak()
   #document
+  #pagebreak()
+  #bibliography(
+    "sources.yaml",
+    style: "ieee",
+    full: true,
+    title: if language == "CZ" {"Použitá literatura"} else {"Bibliography"},
+  )
 ]
+
 
 
 #let ApiEndpoint(method, path, description) = {
