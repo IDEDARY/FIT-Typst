@@ -203,6 +203,10 @@
 
   // Protocol outline
   #pagebreak()
+
+  // Add numbering to the page
+  #set page(numbering: "1") 
+
   #outline(
     title: "Outline",
     indent: auto,
