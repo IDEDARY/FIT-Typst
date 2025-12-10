@@ -21,7 +21,9 @@
     // You can specify optional credits per person
     (name: "Tomáš Navrátil", login: "xlogin01", credits: 50),
   ),
-  date: "Brno, 19. dubna 2025",
+  // You can optionally override the automatic date and location
+  //location: "Praha",
+  //date: "19. dubna 2025",
 )
 
 = Primary title
@@ -88,7 +90,7 @@ $
 
 #figure(caption: [The figure caption])[
   #text(size: 10pt)[
-    Zdroj: Vlastní zpracování
+    Source: Own work
   ]
 
   #table(

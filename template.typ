@@ -29,6 +29,27 @@
 
 #let rnd(term) = calc.round(term, digits: 4);
 
+#let get-formatted-date(location, date, language) = {
+  if date != none {
+    // If a specific date string is provided, use it directly
+    [#location, #date]
+  } else {
+    // Generate automatic date based on today
+    let today = datetime.today()
+    if language == "CZ" {
+      // Czech formatting
+      let cz-months = (
+        "ledna", "února", "března", "dubna", "května", "června", 
+        "července", "srpna", "září", "října", "listopadu", "prosince"
+      )
+      [#location, #today.day(). #cz-months.at(today.month() - 1) #today.year()]
+    } else {
+      // English formatting
+      [#location, #today.display("[month repr:long] [day] [year]")]
+    }
+  }
+}
+
 #let FIT-Protocol(
   language: "CZ",
   academic-subject: str,
@@ -37,7 +58,8 @@
   protocol-subtitle: none,
   team: none,
   authors: (),
-  date: str,
+  location: "Brno",
+  date: none,
   document
 ) = [
   // Customize the page details
@@ -198,7 +220,7 @@
       #linebreak()
     ]],
     // Date
-    align(right + bottom)[#date]
+    align(right + bottom)[#get-formatted-date(location, date, language)]
   )
 
   // Protocol outline
@@ -214,7 +236,11 @@
 
   // Remaining document
   #pagebreak()
+
+  // Rest of the document
   #document
+
+  // Bibliography
   #pagebreak()
   #bibliography(
     "sources.yaml",

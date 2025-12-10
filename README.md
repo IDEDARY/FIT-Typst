@@ -15,6 +15,7 @@ Good enough to bootstrap your protocols. Definitely not good enough for your The
 #### 1. Copy the important files
 
 - `template.typ`
+- `sources.yaml`
 - `assets/`
 
 #### 2. Import the template in your typst file
