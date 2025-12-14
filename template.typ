@@ -230,7 +230,7 @@
   #set page(numbering: "1") 
 
   #outline(
-    title: "Outline",
+    title: if language == "CZ" {"Obsah"} else {"Outline"},
     indent: auto,
   )
 
