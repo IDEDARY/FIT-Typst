@@ -50,10 +50,22 @@
   }
 }
 
+// Automatic academic year calculation
+// Returns "YYYY/YYYY+1" based on September start
+#let get-academic-year(date) = {
+  let year = date.year()
+  // If we are in Jan-Aug (month < 9), it's still the previous academic start year
+  if date.month() < 9 {
+    str(year - 1) + "/" + str(year)
+  } else {
+    str(year) + "/" + str(year + 1)
+  }
+}
+
 #let FIT-Protocol(
   language: "CZ",
   academic-subject: str,
-  academic-year: str,
+  academic-year: none,
   protocol-title: str,
   protocol-subtitle: none,
   team: none,
@@ -62,6 +74,13 @@
   date: none,
   document
 ) = [
+  // Determine the academic year to display
+  #let display-academic-year = if academic-year != none {
+    academic-year
+  } else {
+    get-academic-year(datetime.today())
+  }
+
   // Customize the page details
   #set page(margin: (left: 25mm, right: 25mm, top: 25mm, bottom: 25mm))
   #set heading(numbering: "1.1")
@@ -190,7 +209,7 @@
   #align(center)[
     #text(14pt)[#academic-subject]
 
-    #text(14pt)[#academic-year]
+    #text(14pt)[#display-academic-year]
   ] #v(15mm)
 
   // Protocol title
@@ -249,7 +268,6 @@
     title: if language == "CZ" {"Použitá literatura"} else {"Bibliography"},
   )
 ]
-
 
 
 #let ApiEndpoint(method, path, description) = {

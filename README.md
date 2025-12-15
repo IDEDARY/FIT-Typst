@@ -25,13 +25,11 @@ Good enough to bootstrap your protocols. Definitely not good enough for your The
 
 #show: FIT-Protocol.with(
   academic-subject: "SUBJECT NAME",
-  academic-year: "2024/2025",
   protocol-title: "SEMESTRAL PROJECT",
   protocol-subtitle: "Project subtitle",
   authors: (
     (name: "Honza Novák", login: "xlogin00"),
   ),
-  date: "Brno, 19. dubna 2025",
 )
 
 // ... continue here

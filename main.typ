@@ -4,7 +4,6 @@
   // Change language to english, default is czech
   language: "EN",
   academic-subject: "SUBJECT NAME",
-  academic-year: "2024/2025",
   protocol-title: "SEMESTRAL PROJECT",
   protocol-subtitle: "Project subtitle",
   // This field is optional
@@ -106,4 +105,3 @@ $
 
   #emph[\* A special note about the table]
 ]
-
