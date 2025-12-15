@@ -137,15 +137,8 @@
   
   // Customize the outline heading
   #show heading: h => {
-    block(below: 18pt)[
+    block(below: 1.2em, above: 2em)[
       #h.body
-    ]
-  }
-
-  // Add image padding
-  #show image: img => {
-    block(above: 3em, below: 3em)[
-      #img
     ]
   }
 

@@ -10,6 +10,12 @@ Unofficial [Typst](https://typst.app) (Modern LaTeX alternative) template for th
 
 Good enough to bootstrap your protocols. Definitely not good enough for your Thesis.
 
+<div align="center">
+  <img src="promo/page_1.png" width="30%">
+  <img src="promo/page_2.png" width="30%">
+  <img src="promo/page_3.png" width="30%">
+</div>
+
 ## How to use
 
 #### 1. Copy the important files
@@ -43,7 +49,7 @@ Install this extension which allows you to work localy.
 
 This is recommended by me.
 
-![tinymisct](promo/image.png)
+[![tinymist](promo/image.png)](https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist)
 
 ### Online - Typst.app
 

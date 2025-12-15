@@ -8,7 +8,7 @@
   protocol-subtitle: "Project subtitle",
   // This field is optional
   team: [
-    Team #strong[10xEngineers]
+    Team #strong[xlogin00]
     #v(5mm)
     - Variant 1
     - Option B
@@ -25,13 +25,61 @@
   //date: "19. dubna 2025",
 )
 
-= Primary title
+= Figures & Images
 
-#lorem(64)
+#lorem(32)
 
-#align(center)[
-  #image("assets/fit_logo_en.png", width: 100%)
+#figure(caption: [Spectrogram])[
+  #text(size: 10pt)[
+    Source: Own work
+  ] \
+  #align(center)[
+    #image("promo/spectrogram.png", width: 100%)
+  ]
 ]
+
+== Formulas
+
+#lorem(32)
+
+#let U1 = 95;
+#let U2 = 115;
+#let R5 = 410;
+#let R6 = 830;
+
+#let U12 = U1 + U2;
+#let R56 = (R5 * R6)/(R5 + R6);
+
+$
+  R_56 = (R_5 dot R_6) / (R_5 + R_6) = (R5 dot R6) / (R5 + R6) = ohms(rnd(R56)) \ \
+  U_12 = U_1 + U_2 = U1 + U2 = volts(U12)
+$
+
+== Tables
+
+#lorem(26)
+
+#figure(caption: [Nice table])[
+  #text(size: 10pt)[
+    Source: Own work
+  ]
+
+  #table(
+    columns: (auto, auto, auto, auto),
+    align: (left, center, center, center),
+    inset: 8pt,
+    stroke: 0.5pt + black,
+    strong[XXX], strong[AAA], strong[BBB], strong[CCC],
+    [Solution1], [---], [---], [ 123],
+    [Solution2], [\$ 39.99 / month], [10], [ 456],
+    [Solution3], [ --- ], [2], [ 789 ],
+  )
+
+  #emph[\* A special note about the table]
+]
+
+
+= Endpoints
 
 You can make nice swagger-like endpoints!
 
@@ -56,32 +104,9 @@ You can make nice swagger-like endpoints!
   "Deletes a data record"
 )
 
-#pagebreak()
+== Alerts
 
-== Secondary title
-
-#lorem(64)
-
-== Secondary title
-
-#lorem(64)
-
-#let U1 = 95;
-#let U2 = 115;
-#let R5 = 410;
-#let R6 = 830;
-
-#let U12 = U1 + U2;
-#let R56 = (R5 * R6)/(R5 + R6);
-
-$
-  R_56 = (R_5 dot R_6) / (R_5 + R_6) = (R5 dot R6) / (R5 + R6) = ohms(rnd(R56)) \ \
-  U_12 = U_1 + U_2 = U1 + U2 = volts(U12)
-$
-
-== Secondary title
-
-#lorem(64)
+#lorem(20)
 
 #Note[
   #lorem(12)
@@ -103,25 +128,3 @@ $
   #lorem(12)
 ]
 
-=== Tertiary title
-
-#lorem(32)
-
-#figure(caption: [The figure caption])[
-  #text(size: 10pt)[
-    Source: Own work
-  ]
-
-  #table(
-    columns: (auto, auto, auto, auto),
-    align: (left, center, center, center),
-    inset: 8pt,
-    stroke: 0.5pt + black,
-    strong[XXX], strong[AAA], strong[BBB], strong[CCC],
-    [Solution1], [---], [---], [ 123],
-    [Solution2], [\$ 39.99 / month], [10], [ 456],
-    [Solution3], [ --- ], [2], [ 789 ],
-  )
-
-  #emph[\* A special note about the table]
-]
