@@ -1,4 +1,4 @@
-#import "template.typ": FIT-Protocol, ohms, rnd, volts, ApiEndpoint
+#import "template.typ": FIT-Protocol, ohms, rnd, volts, ApiEndpoint, Note, Tip, Important, Warning, Caution
 
 #show: FIT-Protocol.with(
   // Change language to english, default is czech
@@ -82,6 +82,26 @@ $
 == Secondary title
 
 #lorem(64)
+
+#Note[
+  #lorem(12)
+]
+
+#Tip[
+  #lorem(12)
+]
+
+#Warning()[
+  #lorem(12)
+]
+
+#Important[
+  #lorem(12)
+]
+
+#Caution[
+  #lorem(12)
+]
 
 === Tertiary title
 

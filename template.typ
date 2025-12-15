@@ -313,3 +313,23 @@
     )
   ]
 }
+
+#let Alert(title, color, body) = {
+  block(
+    stroke: (left: 4pt + color),
+    inset: (left: 12pt, top: 6pt, bottom: 6pt),
+    width: 100%,
+    breakable: true,
+    [
+      #text(fill: color, weight: "bold")[#title]
+      
+      #body
+    ]
+  )
+}
+
+#let Note(body) = Alert("Note", rgb("#1f7eeb"), body)
+#let Tip(body) = Alert("Tip", rgb("#25a84a"), body)
+#let Important(body) = Alert("Important", rgb("#925ef4"), body)
+#let Warning(body) = Alert("Warning", rgb("#f1bf19"), body)
+#let Caution(body) = Alert("Caution", rgb("#f24b56"), body)
