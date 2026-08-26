@@ -1,5 +1,7 @@
 #import "template.typ": FIT-Protocol, ohms, rnd, volts, ApiEndpoint, Note, Tip, Important, Warning, Caution
 
+#import "@preview/chronos:0.2.1"
+
 #show: FIT-Protocol.with(
   // Change language to english, default is czech
   language: "EN",
