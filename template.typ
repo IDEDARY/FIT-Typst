@@ -326,3 +326,306 @@
 #let Important(body) = Alert("Important", rgb("#925ef4"), body)
 #let Warning(body) = Alert("Warning", rgb("#f1bf19"), body)
 #let Caution(body) = Alert("Caution", rgb("#f24b56"), body)
+
+
+// ===========================================================================
+// FIT-Presentation
+// ===========================================================================
+
+#import "@preview/touying:0.7.4": *
+
+// Official FIT template colors
+#let fit-cyan = rgb("#00A9E0")
+#let fit-red = rgb("#FE000C")
+#let fit-white = rgb("#FFFFFF")
+#let fit-black = rgb("#000000")
+#let fit-black-10 = black.transparentize(90%)
+
+// Logo assets bundled from the official potx
+#let fit-logo-small = "assets/fit_logo_small.png"
+#let fit-logo-wide = "assets/fit_logo_wide.png"
+
+// Page layout constants (960x540pt canvas, 16:9)
+#let fit-margin = (top: 55pt, bottom: 30pt, left: 34pt, right: 34pt)
+
+// ---- Slide functions ------------------------------------------------------ 
+
+// Title slide
+#let title-slide(config: (:), ..args) = touying-slide-wrapper(self => {
+  self = utils.merge-dicts(
+    self,
+    config-common(freeze-slide-counter: true),
+    config-page(fill: fit-white, header: none, footer: none, margin: 0pt),
+    config,
+  )
+  let info = self.info + args.named()
+  let store = self.store
+
+  let body = {
+    // Cyan block covering
+    place(top + left, block(width: 100%, height: 52%, fill: fit-cyan, spacing: 0pt, {
+
+      // Title in white
+      place(bottom + left, dx: 45pt, dy: -35pt, block(width: 90%, height: 200pt, spacing: 0pt)[
+        #align(bottom)[
+          #text(40pt, weight: "bold", fill: fit-white)[#info.title] \
+          
+          #if info.subtitle != none [
+            #text(30pt, weight: "bold", fill: fit-white)[#info.subtitle]
+          ]
+        ]
+      ])
+    }))
+
+    
+
+    // Authors
+    place(top + left, dx: 45pt, dy: 320pt, block(width: 500pt, spacing: 0pt)[
+      #text(24pt, fill: luma(32.55%))[#store.authors-display]
+    ])
+
+    // Date
+    if store.date-display != none {
+      place(left + bottom, dx: 45pt, dy: -45pt, text(16pt, fill: fit-black)[
+        #store.date-display
+      ])
+    }
+
+    // Wide logo bottom-right
+    place(right + bottom, dx: -45pt, dy: -45pt, image(store.logo-wide, width: 329pt))
+  }
+  touying-slide(self: self, body)
+})
+
+// Default content slide
+#let slide(
+  title: auto,
+  align: auto,
+  config: (:),
+  repeat: auto,
+  setting: body => body,
+  composer: auto,
+  ..bodies,
+) = touying-slide-wrapper(self => {
+  if align != auto {
+    self.store.align = align
+  }
+
+  // The rendered header does not respect this height field
+  let header(self) = block(width: 100%, height: 100%, spacing: 0pt, {
+    // Faint black band
+    place(top + left, block(width: 100%, height: 100%, fill: fit-black-10, spacing: 0pt, {
+      // Red accent bar (top-left)
+      place(horizon + left, dx: 25pt, block(width: 5pt, height: 23pt, fill: fit-red, spacing: 0pt))
+      // Title in cyan (vertically centered in header)
+      place(horizon + left, dx: 45pt, block(width: 80%, spacing: 0pt)[
+        #text(21pt, weight: "bold", fill: fit-cyan)[
+          #if title != auto {
+            title
+          } else {
+            utils.display-current-heading(depth: self.slide-level)
+          }
+        ]
+      ])
+
+      // Cyan accent bar (near top-right, before logo)
+      place(horizon + right, dx: -100pt, block(width: 5pt, height: 23pt, fill: fit-cyan, spacing: 0pt))
+      // Small FIT logo (top-right)
+      place(horizon + right, dx: -25pt, image(self.store.logo-small, height: 25pt))
+    }))
+  })
+
+  let footer(self) = block(width: 100%, height: 100%, fill: fit-cyan, spacing: 0pt, {
+    // Work title (left) and slide number (right)
+    std.align(horizon, pad(x: 11pt, components.left-and-right(
+      text(14pt, fill: fit-white, self.store.work-title),
+      text(14pt, fill: fit-white, context utils.slide-counter.display("1 / 1", both: true)),
+    )))
+  })
+
+  let self = utils.merge-dicts(
+    self,
+    config-page(
+      fill: fit-white,
+      header: header,
+      footer: footer,
+    ),
+  )
+  let new-setting = body => {
+    show: std.align.with(self.store.align)
+    set text(fill: fit-black)
+    show: setting
+    body
+  }
+  touying-slide(
+    self: self,
+    config: config,
+    repeat: repeat,
+    setting: new-setting,
+    composer: composer,
+    ..bodies,
+  )
+})
+
+
+// Section divider slide: centered cyan heading, footer bar retained.
+#let new-section-slide(
+  config: (:),
+  level: 1,
+  numbered: true,
+  body,
+) = touying-slide-wrapper(self => {
+  let slide-body = {
+    set std.align(horizon + center)
+    set text(size: 1.8em, fill: fit-cyan, weight: "bold")
+    utils.display-current-heading(level: level, numbered: numbered, style: auto)
+  }
+  // Keep footer bar, remove header decorations
+  self = utils.merge-dicts(self, config-page(header: none, fill: fit-white))
+  touying-slide(self: self, config: config, slide-body)
+})
+
+
+// Full-bleed cyan emphasis slide.
+#let focus-slide(
+  config: (:),
+  align: horizon + center,
+  body,
+) = touying-slide-wrapper(self => {
+  self = utils.merge-dicts(
+    self,
+    config-common(freeze-slide-counter: true),
+    config-page(fill: fit-cyan, header: none, footer: none, margin: 2em),
+  )
+  set text(fill: fit-white, size: 1.5em, weight: "bold")
+  touying-slide(self: self, config: config, std.align(align, body))
+})
+
+
+// Centered content slide (no header, footer bar retained).
+#let centered-slide(
+  config: (:),
+  align: horizon + center,
+  body,
+) = touying-slide-wrapper(self => {
+  self = utils.merge-dicts(
+    self,
+    config-page(fill: fit-white, header: none),
+  )
+  set std.align(align)
+  touying-slide(self: self, config: config, body)
+})
+
+
+// ---- Theme ---------------------------------------------------------------
+
+#let FIT-Presentation(
+  language: "CZ",
+  presentation-title: str,
+  presentation-subtitle: none,
+  work-title: none,
+  advisor: none,
+  authors: (),
+  team: none,
+  location: "Brno",
+  date: none,
+  aspect-ratio: "16-9",
+  ..args,
+  body,
+) = {
+  // work-title defaults to presentation-title (shown in footer of every slide)
+  let work-title-display = if work-title != none { work-title } else { presentation-title }
+
+  let authors-display = if authors.len() == 0 { none } else {
+    for author in authors [
+      #if "leader" in author {
+        [#author.name]
+      } else {
+        [#author.name]
+      }
+      #linebreak()
+    ]
+  }
+
+  let date-display = get-formatted-date(location, date, language)
+
+  // Compute page dimensions: 960pt base width (matches official FIT template)
+  let parts = aspect-ratio.split("-")
+  let page-width = 960pt
+  let page-height = page-width * float(parts.at(1)) / float(parts.at(0))
+
+  show: touying-slides.with(
+    config-page(
+      width: page-width,
+      height: page-height,
+      margin: fit-margin,
+    ),
+    config-common(
+      slide-fn: slide,
+      new-section-slide-fn: new-section-slide,
+      slide-level: 2,
+    ),
+    config-methods(
+      init: (self: none, body) => {
+        set text(size: 22pt, font: "Liberation Sans")
+        body
+      },
+      alert: utils.alert-with-primary-color,
+    ),
+    config-colors(
+      primary: fit-cyan,
+      primary-light: fit-cyan.lighten(70%),
+      primary-lighter: fit-cyan.lighten(80%),
+      primary-lightest: fit-cyan.lighten(90%),
+      primary-dark: fit-cyan.darken(10%),
+      primary-darker: fit-cyan.darken(20%),
+      primary-darkest: fit-cyan.darken(30%),
+      secondary: fit-black,
+      secondary-light: luma(25%),
+      secondary-lighter: luma(40%),
+      secondary-lightest: luma(55%),
+      secondary-dark: fit-black,
+      secondary-darker: fit-black,
+      secondary-darkest: fit-black,
+      tertiary: fit-cyan,
+      tertiary-light: fit-cyan.lighten(70%),
+      tertiary-lighter: fit-cyan.lighten(80%),
+      tertiary-lightest: fit-cyan.lighten(90%),
+      tertiary-dark: fit-cyan.darken(10%),
+      tertiary-darker: fit-cyan.darken(20%),
+      tertiary-darkest: fit-cyan.darken(30%),
+      neutral: luma(50%),
+      neutral-light: luma(70%),
+      neutral-lighter: luma(85%),
+      neutral-lightest: fit-white,
+      neutral-dark: luma(30%),
+      neutral-darker: luma(15%),
+      neutral-darkest: fit-black,
+    ),
+    config-info(
+      title: presentation-title,
+      subtitle: presentation-subtitle,
+      author: authors-display,
+      date: datetime.today(),
+      institution: if language == "CZ" {
+        [#university-name-cz \\ #faculty-name-fit-cz]
+      } else {
+        [#university-name-en \\ #faculty-name-fit-en]
+      },
+      logo: image(fit-logo-small, height: 1.2em),
+    ),
+    config-store(
+      language: language,
+      logo-small: fit-logo-small,
+      logo-wide: fit-logo-wide,
+      work-title: work-title-display,
+      advisor: advisor,
+      authors-display: authors-display,
+      date-display: date-display,
+      align: left,
+    ),
+    ..args,
+  )
+
+  body
+}

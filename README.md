@@ -4,11 +4,11 @@
 
 &nbsp;
 
-# VUT FIT - Protocol Template
+# VUT FIT - Typst Templates
 
-Unofficial [Typst](https://typst.app) (Modern LaTeX alternative) template for the VUT FIT project protocols.
+Unofficial [Typst](https://typst.app) (Modern LaTeX alternative) templates for the VUT FIT project protocols and presentations.
 
-Good enough to bootstrap your protocols. Definitely not good enough for your Thesis.
+Good enough to bootstrap your protocols and slides. Definitely not good enough for your Thesis.
 
 <div align="center">
   <img src="promo/page_1.png" width="30%">
@@ -16,7 +16,13 @@ Good enough to bootstrap your protocols. Definitely not good enough for your The
   <img src="promo/page_3.png" width="30%">
 </div>
 
-## How to use
+<div align="center">
+  <img src="promo/slide_1.png" width="30%">
+  <img src="promo/slide_2.png" width="30%">
+  <img src="promo/slide_3.png" width="30%">
+</div>
+
+## FIT-Protocol
 
 #### 1. Copy the important files
 
@@ -42,6 +48,36 @@ Good enough to bootstrap your protocols. Definitely not good enough for your The
 ```
 
 You can take a look into `main.typ` for usage examples. The output is `main.pdf`.
+
+## FIT-Presentation
+
+A presentation template recreating the official FIT slide template.
+
+#### 1. Copy the important files
+
+- `template.typ`
+- `sources.yaml`
+- `assets/`
+
+#### 2. Import the template in your typst file
+
+```typst
+#import "template.typ": FIT-Presentation, title-slide
+
+#show: FIT-Presentation.with(
+  language: "EN",
+  presentation-title: "Presentation title",
+  presentation-subtitle: "Some longer presentation subtitle",
+  work-title: "HTML Signature Form Classifier",
+  authors: (
+    (name: "John Doe"),
+  )
+)
+
+// ... continue here
+```
+
+Slides are driven by `==` headings (level 2) - each becomes a content slide with a cyan title and the FIT footer bar. `= Section` (level 1) creates a section divider. You can take a look into `slides.typ` for usage examples. The output is `slides.pdf`.
 
 ### Offline - VSCode
 
