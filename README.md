@@ -17,9 +17,8 @@ Good enough to bootstrap your protocols and slides. Definitely not good enough f
 </div>
 
 <div align="center">
-  <img src="promo/slide_1.png" width="30%">
-  <img src="promo/slide_2.png" width="30%">
-  <img src="promo/slide_3.png" width="30%">
+  <img src="promo/slide_1.png" width="45%">
+  <img src="promo/slide_2.png" width="45%">
 </div>
 
 ## FIT-Protocol
